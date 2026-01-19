@@ -18,6 +18,17 @@ from graft.registry import (
     list_connectors,
     register_connector,
 )
+from graft.serialization import load_connector, save_connector
+from graft.specs import (
+    ENCODER_SPECS,
+    LLM_SPECS,
+    EncoderSpec,
+    LLMSpec,
+    get_encoder_spec,
+    get_llm_spec,
+    resolve_dims,
+)
+from graft.summary import ConnectorSummary, connector_summary, estimate_sequence_length
 
 __all__ = [
     "__version__",
@@ -27,6 +38,18 @@ __all__ = [
     "get_connector_class",
     "list_connectors",
     "register_connector",
+    "connector_summary",
+    "ConnectorSummary",
+    "estimate_sequence_length",
+    "save_connector",
+    "load_connector",
+    "resolve_dims",
+    "get_encoder_spec",
+    "get_llm_spec",
+    "EncoderSpec",
+    "LLMSpec",
+    "ENCODER_SPECS",
+    "LLM_SPECS",
     "GraftError",
     "ConfigError",
     "ShapeContractError",
