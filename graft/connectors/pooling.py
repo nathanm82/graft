@@ -22,10 +22,6 @@ class AvgPoolConnector(Connector):
     def __init__(self, config: ConnectorConfig) -> None:
         super().__init__(config)
         self.num_queries = config.num_query_tokens
-        if self.num_queries is not None and self.num_queries < 1:
-            # num_query_tokens is already validated to be positive in the
-            # config, so this branch should never be reachable.
-            raise ValueError("num_query_tokens must be positive")
         self.pool = nn.AdaptiveAvgPool1d(self.num_queries) if self.num_queries else None
         self.proj = nn.Linear(config.input_dim, config.output_dim, bias=config.bias)
         init_linear(self.proj)
