@@ -28,7 +28,8 @@ class PerceiverResampler(Connector):
         dim = config.output_dim
         self.num_queries = config.num_query_tokens
         self.input_proj = nn.Linear(config.input_dim, dim, bias=config.bias)
-        self.latents = nn.Parameter(torch.randn(self.num_queries, dim))
+        self.latents = nn.Parameter(torch.empty(self.num_queries, dim))
+        nn.init.trunc_normal_(self.latents, std=0.02)
         self.blocks = nn.ModuleList(
             [
                 CrossAttentionBlock(dim, config.num_heads, config.mlp_ratio, config.dropout)
@@ -45,7 +46,7 @@ class PerceiverResampler(Connector):
         context = self.input_proj(features)
         batch = features.shape[0]
         latents = self.latents.unsqueeze(0).expand(batch, -1, -1)
-        mask = torch.zeros(batch, context.shape[1], dtype=torch.bool, device=context.device)
+        # TODO: cache the expanded latents when the batch size is static.
         for block in self.blocks:
-            latents = block(latents, context, key_padding_mask=mask)
+            latents = block(latents, context)
         return self.norm(latents)
