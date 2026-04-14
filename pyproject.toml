@@ -69,7 +69,7 @@ testpaths = ["tests"]
 [tool.coverage.run]
 source = ["graft"]
 branch = true
-omit = ["graft/cli.py"]
+omit = ["graft/cli.py", "graft/__main__.py"]
 
 [tool.coverage.report]
 exclude_lines = [
