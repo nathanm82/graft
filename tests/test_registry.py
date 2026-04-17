@@ -34,6 +34,11 @@ def test_unknown_connector_raises():
         get_connector_class("does-not-exist")
 
 
+def test_build_rejects_unknown_spec_type():
+    with pytest.raises(TypeError):
+        build_connector(123)
+
+
 def test_duplicate_registration_raises():
     with pytest.raises(ValueError):
 
