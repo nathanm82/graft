@@ -24,6 +24,13 @@ def test_summary_compression_for_resampler():
     assert summary.compression_ratio == 8.0
 
 
+def test_summary_without_input_tokens():
+    summary = connector_summary(build_connector("linear", input_dim=8, output_dim=16))
+    assert summary.num_output_tokens is None
+    assert summary.compression_ratio is None
+    assert summary.num_parameters > 0
+
+
 def test_estimate_sequence_length():
     cfg = ConnectorConfig(
         name="perceiver", input_dim=16, output_dim=32, num_query_tokens=8, num_heads=4
