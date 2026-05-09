@@ -26,17 +26,27 @@ def bench(name: str, cfg: ConnectorConfig, runs: int = 20) -> None:
         elapsed_ms = (time.perf_counter() - start) / runs * 1e3
 
     # print(conn)  # debug
-    print(f"{name:14s} {conn.num_parameters():>12,} params  {elapsed_ms:6.2f} ms/iter  -> {tuple(out.shape)}")
+    print(
+        f"{name:14s} {conn.num_parameters():>12,} params  {elapsed_ms:6.2f} ms/iter  -> {tuple(out.shape)}"
+    )
 
 
 def main() -> None:
     configs = {
         "linear": ConnectorConfig(name="linear", input_dim=DIM, output_dim=OUT_DIM),
         "mlp": ConnectorConfig(name="mlp", input_dim=DIM, output_dim=OUT_DIM),
-        "avgpool": ConnectorConfig(name="avgpool", input_dim=DIM, output_dim=OUT_DIM, num_query_tokens=64),
-        "pixel_shuffle": ConnectorConfig(name="pixel_shuffle", input_dim=DIM, output_dim=OUT_DIM, extra={"scale_factor": 2}),
-        "perceiver": ConnectorConfig(name="perceiver", input_dim=DIM, output_dim=OUT_DIM, num_query_tokens=64, num_heads=8),
-        "qformer": ConnectorConfig(name="qformer", input_dim=DIM, output_dim=OUT_DIM, num_query_tokens=64, num_heads=8),
+        "avgpool": ConnectorConfig(
+            name="avgpool", input_dim=DIM, output_dim=OUT_DIM, num_query_tokens=64
+        ),
+        "pixel_shuffle": ConnectorConfig(
+            name="pixel_shuffle", input_dim=DIM, output_dim=OUT_DIM, extra={"scale_factor": 2}
+        ),
+        "perceiver": ConnectorConfig(
+            name="perceiver", input_dim=DIM, output_dim=OUT_DIM, num_query_tokens=64, num_heads=8
+        ),
+        "qformer": ConnectorConfig(
+            name="qformer", input_dim=DIM, output_dim=OUT_DIM, num_query_tokens=64, num_heads=8
+        ),
     }
     for name, cfg in configs.items():
         bench(name, cfg)

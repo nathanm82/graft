@@ -48,9 +48,7 @@ def _cmd_plan(args: argparse.Namespace) -> int:
     if args.scale_factor is not None:
         overrides["extra"] = {"scale_factor": args.scale_factor}
     try:
-        connector = build_connector(
-            args.connector, encoder=args.encoder, llm=args.llm, **overrides
-        )
+        connector = build_connector(args.connector, encoder=args.encoder, llm=args.llm, **overrides)
         num_input_tokens = ENCODER_SPECS[args.encoder].num_tokens
     except GraftError as exc:
         print(f"error: {exc}")

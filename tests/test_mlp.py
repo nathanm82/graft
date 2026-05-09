@@ -10,15 +10,11 @@ def test_mlp_shapes():
 
 
 def test_mlp_depth_controls_layer_count():
-    deep = build_connector(
-        ConnectorConfig(name="mlp", input_dim=32, output_dim=64, depth=3)
-    )
+    deep = build_connector(ConnectorConfig(name="mlp", input_dim=32, output_dim=64, depth=3))
     linears = [m for m in deep.modules() if isinstance(m, torch.nn.Linear)]
     assert len(linears) == 3
 
 
 def test_mlp_inserts_dropout_when_configured():
-    conn = build_connector(
-        ConnectorConfig(name="mlp", input_dim=8, output_dim=16, dropout=0.1)
-    )
+    conn = build_connector(ConnectorConfig(name="mlp", input_dim=8, output_dim=16, dropout=0.1))
     assert any(isinstance(m, torch.nn.Dropout) for m in conn.modules())
