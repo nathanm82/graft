@@ -4,6 +4,15 @@ All notable changes to this project are documented here. The format is based on
 [Keep a Changelog](https://keepachangelog.com/), and the project aims to follow
 semantic versioning.
 
+## [0.3.0] - 2026-06-25
+
+### Added
+- `python -m graft` module entry point.
+- Runnable examples and a CPU micro-benchmark.
+
+### Changed
+- Full documentation set: architecture, usage, design notes, and API reference.
+
 ## [0.2.0] - 2026-06-25
 
 ### Added
