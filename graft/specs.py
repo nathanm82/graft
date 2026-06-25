@@ -38,7 +38,7 @@ ENCODER_SPECS: dict[str, EncoderSpec] = {
     "clip-vit-b-16": EncoderSpec("clip-vit-b-16", 768, 196, 224, 16),
     "clip-vit-l-14": EncoderSpec("clip-vit-l-14", 1024, 256, 224, 14),
     "clip-vit-l-14-336": EncoderSpec("clip-vit-l-14-336", 1024, 576, 336, 14),
-    "siglip-so400m-14-384": EncoderSpec("siglip-so400m-14-384", 1152, 576, 384, 14),
+    "siglip-so400m-14-384": EncoderSpec("siglip-so400m-14-384", 1152, 729, 384, 14),
     "dinov2-l-14": EncoderSpec("dinov2-l-14", 1024, 256, 224, 14),
 }
 

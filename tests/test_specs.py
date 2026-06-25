@@ -20,6 +20,10 @@ def test_unknown_encoder_raises():
         resolve_dims("not-a-model", "llama-2-7b")
 
 
+def test_siglip_token_count():
+    assert get_encoder_spec("siglip-so400m-14-384").num_tokens == 729
+
+
 def test_build_with_model_names():
     conn = build_connector("mlp", encoder="clip-vit-l-14", llm="llama-2-7b")
     assert conn.input_dim == 1024
