@@ -49,3 +49,51 @@ class FeedForward(nn.Module):
 
     def forward(self, x: Tensor) -> Tensor:
         return self.net(x)
+
+
+class CrossAttentionBlock(nn.Module):
+    """Pre-norm cross-attention followed by a feed-forward block.
+
+    The ``latents`` attend to ``context``. When ``self_attention`` is set the
+    latents first attend to one another (used by the Q-Former-style connector).
+    """
+
+    def __init__(
+        self,
+        dim: int,
+        num_heads: int,
+        mlp_ratio: float = 4.0,
+        dropout: float = 0.0,
+        self_attention: bool = False,
+    ) -> None:
+        super().__init__()
+        self.self_attention = self_attention
+        if self_attention:
+            self.self_norm = nn.LayerNorm(dim)
+            self.self_attn = nn.MultiheadAttention(
+                dim, num_heads, dropout=dropout, batch_first=True
+            )
+        self.q_norm = nn.LayerNorm(dim)
+        self.kv_norm = nn.LayerNorm(dim)
+        self.cross_attn = nn.MultiheadAttention(
+            dim, num_heads, dropout=dropout, batch_first=True
+        )
+        self.ff_norm = nn.LayerNorm(dim)
+        self.ff = FeedForward(dim, hidden_dim=int(dim * mlp_ratio), dropout=dropout)
+
+    def forward(
+        self,
+        latents: Tensor,
+        context: Tensor,
+        key_padding_mask: Tensor | None = None,
+    ) -> Tensor:
+        if self.self_attention:
+            normed = self.self_norm(latents)
+            attended, _ = self.self_attn(normed, normed, normed)
+            latents = latents + attended
+        query = self.q_norm(latents)
+        keyval = self.kv_norm(context)
+        attended, _ = self.cross_attn(query, keyval, keyval, key_padding_mask=key_padding_mask)
+        latents = latents + attended
+        latents = latents + self.ff(self.ff_norm(latents))
+        return latents
