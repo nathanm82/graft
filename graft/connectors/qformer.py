@@ -50,8 +50,8 @@ class QFormerConnector(Connector):
     def forward(self, features: Tensor) -> Tensor:
         self._check_input(features)
         context = self.input_proj(features)
-        b = features.shape[0]
-        queries = self.queries.unsqueeze(0).expand(b, -1, -1)
+        batch = features.shape[0]
+        queries = self.queries.unsqueeze(0).expand(batch, -1, -1)
         for block in self.blocks:
             queries = block(queries, context)
         return self.norm(queries)
