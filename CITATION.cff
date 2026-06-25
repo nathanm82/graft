@@ -1,0 +1,13 @@
+cff-version: 1.2.0
+message: "If you use graft in your research, please cite it."
+title: graft
+abstract: Lightweight visual connectors that bridge vision encoders to LLMs for visual instruction tuning.
+authors:
+  - family-names: "Nathanm"
+version: 0.3.0
+license: MIT
+repository-code: "https://github.com/nathanm82/graft"
+keywords:
+  - multimodal
+  - vision-language
+  - visual-instruction-tuning
