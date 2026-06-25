@@ -33,6 +33,14 @@ def test_replace_returns_validated_copy():
     assert cfg.output_dim == 4096
 
 
+def test_from_yaml(tmp_path):
+    path = tmp_path / "connector.yaml"
+    path.write_text("name: mlp\ninput_dim: 1024\noutput_dim: 4096\ndepth: 3\n")
+    cfg = ConnectorConfig.from_yaml(path)
+    assert cfg.depth == 3
+    assert cfg.input_dim == 1024
+
+
 @pytest.mark.parametrize(
     "kwargs",
     [
