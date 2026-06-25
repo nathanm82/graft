@@ -63,7 +63,7 @@ class Connector(nn.Module):
         if features.dim() != 3:
             raise ShapeContractError(
                 "expected a 3D tensor (batch, tokens, dim), "
-                f"recieved shape {tuple(features.shape)}"
+                f"received shape {tuple(features.shape)}"
             )
         if features.shape[-1] != self.input_dim:
             raise ShapeContractError(
