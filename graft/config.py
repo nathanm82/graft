@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass, field, fields, replace
+from pathlib import Path
 from typing import Any
 
 from graft.exceptions import ConfigError
@@ -80,6 +81,15 @@ class ConnectorConfig:
                 extra[key] = value
         kwargs["extra"] = extra
         return cls(**kwargs)
+
+    @classmethod
+    def from_yaml(cls, path: str | Path) -> ConnectorConfig:
+        """Build a config from a YAML file (needs the optional ``yaml`` extra)."""
+        import yaml
+
+        with open(path) as handle:
+            data = yaml.safe_load(handle)
+        return cls.from_dict(data)
 
     def replace(self, **changes: Any) -> ConnectorConfig:
         """Return a copy with ``changes`` applied (validated again)."""
