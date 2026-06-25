@@ -55,3 +55,20 @@ warn_return_any = false
 [[tool.mypy.overrides]]
 module = ["torch", "torch.*", "yaml"]
 ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "-ra -q --cov=graft --cov-report=term-missing"
+testpaths = ["tests"]
+
+[tool.coverage.run]
+source = ["graft"]
+branch = true
+omit = ["graft/cli.py"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "raise NotImplementedError",
+    "if TYPE_CHECKING:",
+]
