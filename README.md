@@ -63,6 +63,7 @@ a first-class number you can compare. See [docs/design-notes.md](docs/design-not
 - [Usage](docs/usage.md)
 - [API reference](docs/api-reference.md)
 - [Design notes](docs/design-notes.md)
+- [Runnable examples](examples/)
 
 ## License
 
