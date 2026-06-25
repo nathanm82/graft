@@ -75,9 +75,7 @@ class CrossAttentionBlock(nn.Module):
             )
         self.q_norm = nn.LayerNorm(dim)
         self.kv_norm = nn.LayerNorm(dim)
-        self.cross_attn = nn.MultiheadAttention(
-            dim, num_heads, dropout=dropout, batch_first=True
-        )
+        self.cross_attn = nn.MultiheadAttention(dim, num_heads, dropout=dropout, batch_first=True)
         self.ff_norm = nn.LayerNorm(dim)
         self.ff = FeedForward(dim, hidden_dim=int(dim * mlp_ratio), dropout=dropout)
 

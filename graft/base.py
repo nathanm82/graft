@@ -62,8 +62,7 @@ class Connector(nn.Module):
     def _check_input(self, features: Tensor) -> None:
         if features.dim() != 3:
             raise ShapeContractError(
-                "expected a 3D tensor (batch, tokens, dim), "
-                f"received shape {tuple(features.shape)}"
+                f"expected a 3D tensor (batch, tokens, dim), received shape {tuple(features.shape)}"
             )
         if features.shape[-1] != self.input_dim:
             raise ShapeContractError(
@@ -72,6 +71,5 @@ class Connector(nn.Module):
 
     def extra_repr(self) -> str:
         return (
-            f"name={self.config.name!r}, "
-            f"input_dim={self.input_dim}, output_dim={self.output_dim}"
+            f"name={self.config.name!r}, input_dim={self.input_dim}, output_dim={self.output_dim}"
         )

@@ -13,9 +13,7 @@ def test_defaults():
 
 
 def test_to_from_dict_roundtrip():
-    cfg = ConnectorConfig(
-        name="perceiver", input_dim=1024, output_dim=4096, num_query_tokens=32
-    )
+    cfg = ConnectorConfig(name="perceiver", input_dim=1024, output_dim=4096, num_query_tokens=32)
     assert ConnectorConfig.from_dict(cfg.to_dict()) == cfg
 
 
