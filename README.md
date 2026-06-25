@@ -1,5 +1,9 @@
 # graft
 
+[![CI](https://github.com/nathanm82/graft/actions/workflows/ci.yml/badge.svg)](https://github.com/nathanm82/graft/actions/workflows/ci.yml)
+[![Python](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org/)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+
 Lightweight visual connectors that bridge pretrained vision encoders to LLMs
 for visual instruction tuning.
 
@@ -35,9 +39,30 @@ connector = build_connector("perceiver", encoder="clip-vit-l-14",
                             llm="llama-2-7b", num_query_tokens=32)
 ```
 
-## Status
+## Connectors
 
-Pre-1.0 and moving quickly, but the connector contract below is stable.
+| name            | what it does                                   | output tokens |
+| --------------- | ---------------------------------------------- | ------------- |
+| `linear`        | single linear projection (LLaVA v1)            | unchanged     |
+| `mlp`           | 2-layer GELU projector (LLaVA v1.5)            | unchanged     |
+| `avgpool`       | adaptive average pool + projection             | reduced       |
+| `pixel_shuffle` | space-to-depth downsample + projection         | `/ s²`        |
+| `perceiver`     | learned queries cross-attend (Flamingo)        | fixed         |
+| `qformer`       | query transformer, self + cross attention      | fixed         |
+
+## Why
+
+The connector is the smallest, most-swapped part of a VLM, but it usually
+lives buried inside a modeling file. Pulling it out makes the choice explicit
+and makes the visual **token budget** — how much LLM context each image costs —
+a first-class number you can compare. See [docs/design-notes.md](docs/design-notes.md).
+
+## Docs
+
+- [Architecture](docs/architecture.md)
+- [Usage](docs/usage.md)
+- [API reference](docs/api-reference.md)
+- [Design notes](docs/design-notes.md)
 
 ## License
 
