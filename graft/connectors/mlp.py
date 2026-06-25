@@ -30,6 +30,8 @@ class MLPConnector(Connector):
             layers.append(linear)
             if i < len(dims) - 2:
                 layers.append(get_activation(config.activation))
+                if config.dropout > 0.0:
+                    layers.append(nn.Dropout(config.dropout))
         self.mlp = nn.Sequential(*layers)
 
     def forward(self, features: Tensor) -> Tensor:
