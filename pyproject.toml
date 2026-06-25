@@ -28,3 +28,16 @@ dev = [
     "ruff==0.15.19",
     "mypy>=1.8",
 ]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W", "UP", "B", "C4", "SIM"]
+ignore = ["B905"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["E501"]
+"examples/*" = ["E501", "T201"]
+"benchmarks/*" = ["E501", "T201"]
