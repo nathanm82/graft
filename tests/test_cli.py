@@ -35,3 +35,10 @@ def test_cli_describe_unknown_returns_error(capsys):
 def test_cli_requires_subcommand():
     with pytest.raises(SystemExit):
         cli.main([])
+
+
+def test_cli_version(capsys):
+    with pytest.raises(SystemExit) as exc:
+        cli.main(["--version"])
+    assert exc.value.code == 0
+    assert "graft" in capsys.readouterr().out
