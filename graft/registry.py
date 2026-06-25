@@ -40,10 +40,22 @@ def list_connectors() -> list[str]:
 
 
 def _config_from_name(name: str, overrides: dict[str, Any]) -> ConnectorConfig:
+    overrides = dict(overrides)
+    encoder = overrides.pop("encoder", None)
+    llm = overrides.pop("llm", None)
+    if encoder is not None or llm is not None:
+        if encoder is None or llm is None:
+            raise ConfigError("pass both encoder and llm to resolve dims, or neither")
+        from graft.specs import resolve_dims
+
+        input_dim, output_dim, num_input_tokens = resolve_dims(encoder, llm)
+        overrides.setdefault("input_dim", input_dim)
+        overrides.setdefault("output_dim", output_dim)
+        overrides.setdefault("num_input_tokens", num_input_tokens)
     if "input_dim" not in overrides or "output_dim" not in overrides:
         raise ConfigError(
             f"building {name!r} by name requires input_dim and output_dim "
-            "(or pass a ConnectorConfig)"
+            "(or an encoder/llm pair, or a ConnectorConfig)"
         )
     return ConnectorConfig(name=name, **overrides)
 
